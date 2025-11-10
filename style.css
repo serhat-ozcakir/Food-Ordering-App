@@ -77,3 +77,25 @@ button:hover {
     max-width: 1440px;
     width: 100%;
 }
+
+section.container {
+  display: flex;           /* row flex davranışını korur */
+  align-items: flex-start;
+}
+
+.row {
+  display: flex;           /* yan yana hizalama */
+  width: 100%;
+}
+
+#col {
+  flex: 1;                 /* sol sütun büyüsün */
+}
+
+#orderKorb {
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;  /* flex container içinde üstte başlat */
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
