@@ -1,3 +1,4 @@
+// Our Menu
 const menu = [
     {
         "name": "Pizza Krabben",
@@ -23,21 +24,27 @@ const menu = [
         "price": 13.75,
         "description": "Ein scharfes und aromatisches mit Kokosmilch",
         "url": "./img/Thai Curry mit Garnelen.jpg",
+    },
+        {
+        "name": "Döner",
+        "price": 9,
+        "description": "Saftiges Fleisch im Fladenbrot mit Soße",
+        "url": "./img/döner.jpg",
     }
 ]
-// siparis listesindeki bos array, siparisler bunun icine geliyor
+// The empty array in the order list is where the orders go.
 const order = [];
 
+//Captures the divs in index.html
 let row = document.getElementById("row");
 let col = document.getElementById("col");
-let cardBody = document.getElementById("card-body");
+let orderKorb = document.getElementById("orderKorb");
 
-// menü listelerini render ederek gösterdim
+// rendered the menu lists and displayed them
 function renderMenu() {
     for (let i = 0; i < menu.length; i++) {
         const element = menu[i];
         console.log(element);
-         if (!cardBody) return;
         col.innerHTML += `
                     <div class="card mb-3">
                         <div class="card-header d-flex justify-content-between">
@@ -55,26 +62,50 @@ function renderMenu() {
                     </div>
         `
     }
+    renderOrderKorb();
 }
 renderMenu();
 
-// siparis listesine yemek ekledim
+// Cart HTML settings according to the order list
+function renderOrderKorb(){
+    orderKorb.innerHTML = "";
+    if(order.length > 0 ){
+        orderKorb.innerHTML +=`
+         <div class="card">
+                <h2 class="card-title text-center">Warenkorb</h2>
+                <div id="card-body" class="card-body"></div>
+            </div>
+        `
+      } else{
+        orderKorb.innerHTML += `
+          <div class="card">
+                <h2 class="text-center">Warenkorb</h2>
+                <div class="card-body text-center">
+                    <span>Es gibt keine Auswahl.</span>
+                </div>
+            </div>
+        `
+      }  
+}
+
+// Food was added to the order list
 function addOrder(i) {
     console.log(`${i} tiklandi`);
     let menuList = menu[i];
-     if (!order.some(item => item.name === menuList.name)) {
-        order.push({ ...menuList, amount: 1 });
+    if (!order.some(item => item.name === menuList.name)) {
+        order.push({ ...menuList, amount: 5 });
     }
-   renderAddOrder();
-   // console.log(menuList);
-   // console.log(order);
+    renderOrderKorb();
+    renderAddOrder();
+    // console.log(menuList);
+    // console.log(order);
 }
 
-
-// siparis listesi degistiginde burasi siparisi tekrardan güncelliyor
-function renderAddOrder(){
+// When the order list changes, this updates the order again.
+function renderAddOrder() {
+    let cardBody = document.getElementById("card-body");
     cardBody.innerHTML = "";
-        for (let i = 0; i < order.length; i++) {
+    for (let i = 0; i < order.length; i++) {
         const item = order[i];
         console.log(item);
         cardBody.innerHTML += `
@@ -89,47 +120,92 @@ function renderAddOrder(){
                                    <span id="price-${i}">${(item.price * item.amount).toFixed(2)}€</span>
                                     <button onclick="deleteMenu(${i})"><i class="bi bi-trash3"></i></button>
                                 </div>
-                            </div>
-                         <div class="Rechner-info mt-5">
-                            <div>Zwischensumme</div>
-                            <div>${(item.price * item.amount).toFixed(2)}€</div>
-                        </div>
-                        <div class="Rechner-info">
-                            <div>Lieferkosten</div>
-                            <div>5€</div>
-                        </div>
-                        <div class="Rechner-info">
-                            <div><strong>Gesamt</strong></div>
-                            <div> <strong>${((item.price * item.amount)+5).toFixed(2)}€</strong></div>
-                        </div>
-                            
+                            </div>     
+                            `
+    }
+    renderSummary();
+    placeOrder();
+}
+
+//  The total meal price has been calculated.
+function renderSummary() {
+    let cardBody = document.getElementById("card-body");
+    let subTotal = 0
+    let delivery = 5;
+    let total = 0;
+
+    for (let i = 0; i < order.length; i++) {
+        const element = order[i];
+        subTotal += element.price*element.amount;
+        total = subTotal + delivery; 
+    }
+    if (order.length > 0) {
+        cardBody.innerHTML += `
+                    <div class="Rechner-info mt-5">
+                        <div>Zwischensumme</div>
+                        <div>${subTotal.toFixed(2)}€</div>
+                    </div>
+                    <div class="Rechner-info">
+                        <div>Lieferkosten</div>
+                        <div>${delivery}€</div>
+                    </div>
+                    <div class="Rechner-info">
+                        <div><strong>Gesamt</strong></div>
+                        <div> <strong>${total.toFixed(2)}€</strong></div>
+                    </div>        
         `
     }
 }
 
-// siparis miktarlarini arttir
-function increaseOrder(i){
+//  order confirmation “div”
+function placeOrder(){
+    let cardBody = document.getElementById("card-body");
+   cardBody.innerHTML +=`
+                    <div style="display:flex; justify-content: center;">
+                    <button onclick="doOrder()" type="button" class="btn btn-primary" id="liveToastBtn">Bestätigung</button>
+                    </div>   
+   `   
+}
+
+//  order confirmation button
+function doOrder(){
+      order.length = 0;
+        renderOrderKorb();
+    // Toast show
+    const toastElement = document.getElementById('orderToast');
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();  
+}
+
+// increase order quantities
+function increaseOrder(i) {
     order[i].amount++;
-  //  console.log(`${i} artti, yeni miktar: ${order[i].amount}`);
+    //  console.log(`${i} artti, yeni miktar: ${order[i].amount}`);
+    renderOrderKorb();
     renderAddOrder();
 }
 
-// siparis miktarlarini azalt
-function decreaseOrder(i){
- if (order[i].amount > 1) {
+// reduce order quantities
+function decreaseOrder(i) {
+    if (order[i].amount > 1) {
         order[i].amount--;
     } else {
-        // 1’den küçükse ürünü listeden çıkar
         order.splice(i, 1);
     }
-     renderAddOrder();
+    renderAddOrder();
+    if(order.length > 0){
+        renderAddOrder();
+    }
 }
 
-// Siparis listesinden bir seyler silebiliyoruz
-function deleteMenu(i){
-    order.splice(i,1);
-  //  console.log(`${i} silindi`);   
-     renderAddOrder();   
+// We remove food from the order list.
+function deleteMenu(i) {
+    order.splice(i, 1);
+    //  console.log(`${i} silindi`);   
+    renderOrderKorb();
+       if(order.length > 0){
+       renderAddOrder();
+    }
 }
 
 
