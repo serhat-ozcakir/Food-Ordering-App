@@ -71,7 +71,11 @@ function renderOrderKorb(){
     orderKorb.innerHTML = "";
     if(order.length > 0 ){
         orderKorb.innerHTML +=`
-         <div class="card">
+         <div class="d-block d-lg-none">
+        <button onclick="mobilOrder()" id="menu-order-mobil" type="button" class="btn btn-primary w-100 p-2">Warenkorb</button>
+        </div>
+
+         <div id="" class="card">
                 <h2 class="card-title text-center">Warenkorb</h2>
                 <div id="card-body" class="card-body"></div>
             </div>
@@ -81,11 +85,25 @@ function renderOrderKorb(){
           <div class="card">
                 <h2 class="text-center">Warenkorb</h2>
                 <div class="card-body text-center">
-                    <span>Es gibt keine Auswahl.</span>
+                    <span">Es gibt keine Auswahl.</span>
                 </div>
             </div>
         `
       }  
+      
+}
+
+function mobilOrder(){
+    col.classList.toggle("col-toggle")
+    const mobilCardMenu = document.querySelector("#card-body");
+
+        const mobilCard = document.querySelector("#card");
+       
+   if(mobilCard){
+      mobilCardMenu.classList.toggle(".card-toggle")
+   } 
+      
+   
 }
 
 // Food was added to the order list
@@ -124,7 +142,15 @@ function renderAddOrder() {
                             `
     }
     renderSummary();
-    placeOrder();
+    if(order.length == 0){
+        let menuCard = document.createElement("div")
+        menuCard.classList.add("card-body")
+        menuCard.innerText = "Es gibt keine Auswahl"
+        cardBody.append(menuCard)
+    } else{
+        placeOrder();
+
+    }
 }
 
 //  The total meal price has been calculated.
@@ -156,6 +182,8 @@ function renderSummary() {
         `
     }
 }
+
+
 
 //  order confirmation “div”
 function placeOrder(){
@@ -207,5 +235,3 @@ function deleteMenu(i) {
        renderAddOrder();
     }
 }
-
-
