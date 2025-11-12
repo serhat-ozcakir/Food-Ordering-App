@@ -12,7 +12,7 @@
     <link rel="icon" href="./img/logo/android-chrome-192x192.png" type="image/x-icon">
 </head>
 
-<body>
+<body onload="init()">
     <header>
         <nav class="navbar navbar-dark shadow-sm">
             <div class="container-fluid">
@@ -28,7 +28,6 @@
                 <div id="col" class="col-12 col-lg-8 d-lg-block">
                     <div class="header">
                         <img src="./img/restaurant-bild.jpg" alt="Kapak fotoğrafı" class="cover">
-
                         <div class="logo">
                             <img src="./img/logo/restaurant logo.png" alt="Logo">
                         </div>
@@ -37,7 +36,7 @@
                         <h1>Taste Paradise</h1>
                         <p><strong>Bewertung:</strong> ⭐ 4,2 von 5 Sternen</p>
                         <p><strong>Liefergebühr:</strong> 5 €</p>
-                        <p><strong>Beschreibung:</strong>
+                        <p><strong>Produkte:</strong>
                             Entdecke unsere vielfältige Auswahl an frischen und leckeren Gerichten! Genieße die saftigen
                             Pizza Krabben mit Krabben und Pepperoni, die herzhafte Vegetarische Lasagne mit frischem
                             Gemüse, cremige Spaghetti Carbonara mit Speck und Parmesan, unser aromatisches Thai Curry
@@ -94,7 +93,8 @@
             </div>
         </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="./JS/data.js"></script>
+    <script src="./JS/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>

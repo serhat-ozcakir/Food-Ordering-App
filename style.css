@@ -74,12 +74,15 @@ body {
 
 .content p strong {
   color: #ff416c; /* pembe ton */
+  font-size: 21px;
 }
 
 .content p {
   color: #333; /* okunabilir koyu renk */
   line-height: 1.6;
   text-align: justify;
+  font-size: 21px;
+  
 }
 
 .card {
@@ -133,7 +136,7 @@ button:hover {
 }
 
 .Rechner{
-    max-width: 120px;
+    max-width: 100px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -209,8 +212,8 @@ section.container {
 }
 
 @media screen and (max-width:992px) {
-  #card{
-    display: none;
+  #orderKorb .card {
+    display: none; /* Başlangıçta card gizli */
   }
     .content{
     margin-top: 60px;
