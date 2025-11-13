@@ -1,4 +1,3 @@
-
 // The empty array in the order list is where the orders go.
 const order = [];
 
@@ -6,10 +5,8 @@ let cardOpenMobile = false;
 
 // loads the page and calls other functions
 function init() {
-    //Captures the divs in index.html
     let col = document.getElementById("col");
     let orderKorb = document.getElementById("orderKorb");
-
     renderMenu();
     renderOrderKorb();
 // When switching from mobile screen to desktop, the display of divs is ensured.
@@ -20,14 +17,18 @@ function init() {
         }
         renderOrderKorb();
     });
-
 }
 
-// rendered the menu lists and displayed them
+// Creates menus
 function renderMenu() {
+    renderMenüDiv()
+    renderOrderKorb();
+}
+
+// Displays menu cards on the screen
+function renderMenüDiv(){
     for (let i = 0; i < menu.length; i++) {
         const element = menu[i];
-        console.log(element);
         col.innerHTML += `
                     <div class="card mb-3">
                         <div class="card-header d-flex justify-content-between">
@@ -43,38 +44,54 @@ function renderMenu() {
                             <p class="card-text mt-2">${element.price}€</p>
                         </div>
                     </div>
-        `
-    }
-    renderOrderKorb();
+        ` }
 }
 
 // Cart HTML settings according to the order list
 function renderOrderKorb() {
     orderKorb.innerHTML = "";
-    const Mobile = window.innerWidth < 992;
-    console.log(order);
-    
-    if (Mobile) {
-        let orderNummer = order.length;
+    renderMobileButton()
+    renderCard()
+    renderAddOrder(); 
+}
+
+// Creates a mobile button
+function renderMobileButton(){
+ if(window.innerWidth < 992) {
+         let orderNummer = order.length;
         orderKorb.innerHTML += `
             <div id="orderNummerButon"  class="d-block d-lg-none">
                 <button onclick="mobilOrder()" class="btn btn-primary w-100 p-2">Warenkorb ${orderNummer > 0 ? `(${orderNummer})` : ""}</button>
             </div>
         `;
     }
+}
 
-    // Card (mobilde state’e göre göster/gizle)
-    orderKorb.innerHTML += `
+// Adds the cart HTML
+function renderCard(){
+     const Mobile = window.innerWidth < 992;
+      orderKorb.innerHTML += `
         <div class="card card-warenkorb" style="display: ${Mobile && !cardOpenMobile ? 'none' : 'block'};">
             <h2 class="card-title card-title-warenkorb text-center">Warenkorb</h2>
             <div id="card-body" class="card-body"></div>
         </div>
     `;
 
-    renderAddOrder();
 }
 
-// configures the menu and card display on the mobile screen
+// When the order list changes, this updates the order again.
+function renderAddOrder() {
+    let cardBody = document.getElementById("card-body");
+    cardBody.innerHTML = "";
+     renderOrderItems(cardBody)
+    if (order.length == 0) {
+       renderEmptyCard(cardBody)
+    } else {
+        placeOrder();
+    }
+}
+
+// Open/close basket on mobile
 function mobilOrder() {
     cardOpenMobile = !cardOpenMobile;
     if (cardOpenMobile) {
@@ -82,7 +99,6 @@ function mobilOrder() {
     } else {
         col.classList.remove("col-toggle")
     }
-
     const card = document.querySelector("#orderKorb .card")
     if (cardOpenMobile) {
         card.style.display = "block";
@@ -101,13 +117,19 @@ function addOrder(i) {
     renderAddOrder();
 }
 
-// When the order list changes, this updates the order again.
-function renderAddOrder() {
-    let cardBody = document.getElementById("card-body");
-    cardBody.innerHTML = "";
-    for (let i = 0; i < order.length; i++) {
+// Shows a message when the basket is empty
+function renderEmptyCard(cardBody){
+        let menuCard = document.createElement("div");
+        menuCard.classList.add("card-body");
+         menuCard.classList.add("card-warenkorb-text");
+        menuCard.innerHTML = "<p>🧺 Es gibt keine Auswahl</p><br><p>🍽️ Wenn du Lust auf etwas Leckeres hast, schau einfach in unser Menü und wähle dein Lieblingsgericht aus! Es wird dann hier in deinem Warenkorb angezeigt. Guten Appetit und viel Spaß beim Stöbern! 😋</p>"
+        cardBody.append(menuCard)
+}
+
+// List the products in the basket
+function renderOrderItems(cardBody){
+        for (let i = 0; i < order.length; i++) {
         const item = order[i];
-        console.log(item);
         cardBody.innerHTML += `
                             <p>${item.name}</p>
                             <div class="d-flex justify-content-between">
@@ -121,19 +143,8 @@ function renderAddOrder() {
                                     <button onclick="deleteMenu(${i})"><i class="bi bi-trash3"></i></button>
                                 </div>
                             </div>     
-                            `
-    }
-    renderSummary();
-    if (order.length == 0) {
-        let menuCard = document.createElement("div");
-        menuCard.classList.add("card-body");
-         menuCard.classList.add("card-warenkorb-text");
-        menuCard.innerHTML = "<p>🧺 Es gibt keine Auswahl</p><br><p>🍽️ Wenn du Lust auf etwas Leckeres hast, schau einfach in unser Menü und wähle dein Lieblingsgericht aus! Es wird dann hier in deinem Warenkorb angezeigt. Guten Appetit und viel Spaß beim Stöbern! 😋</p>"
-        cardBody.append(menuCard)
-    } else {
-        placeOrder();
-
-    }
+                            ` }
+    renderSummary(cardBody);
 }
 
 //  The total meal price has been calculated.
@@ -142,13 +153,17 @@ function renderSummary() {
     let subTotal = 0
     let delivery = 5;
     let total = 0;
-
     for (let i = 0; i < order.length; i++) {
         const element = order[i];
         subTotal += element.price * element.amount;
-        total = subTotal + delivery;
     }
-    if (order.length > 0) {
+    total = subTotal + delivery;
+    renderSummaryInfo(cardBody, subTotal, delivery, total)
+}
+
+// Shows the price information.
+function renderSummaryInfo(cardBody, subTotal, delivery, total){
+      if (order.length > 0) {
         cardBody.innerHTML += `
                     <div class="Rechner-info mt-4">
                         <div>Zwischensumme</div>
@@ -162,13 +177,10 @@ function renderSummary() {
                         <div><strong>Gesamt</strong></div>
                         <div> <strong>${total.toFixed(2)}€</strong></div>
                     </div>        
-        `
-    }
+        ` }
 }
 
-
-
-//  order confirmation “div”
+//  Adds the order confirmation button
 function placeOrder() {
     let cardBody = document.getElementById("card-body");
     cardBody.innerHTML += `
@@ -177,8 +189,7 @@ function placeOrder() {
                     </div>   
    `
 }
-
-//  order confirmation button
+// The basket is cleared when the order is confirmed.
 function doOrder() {
     order.length = 0;
     renderOrderKorb();
@@ -204,6 +215,7 @@ function decreaseOrder(i) {
     }
     renderAddOrder();
     if (order.length > 0) {
+         renderOrderKorb();
         renderAddOrder();
     }
 }
