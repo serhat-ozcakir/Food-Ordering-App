@@ -1,0 +1,14 @@
+# System files
+Thumbs.db
+
+# Editor configuration files
+.vscode/
+.idea/
+
+# Temporary files
+*.log
+*.tmp
+
+# Backup files
+*~
+*.bak
