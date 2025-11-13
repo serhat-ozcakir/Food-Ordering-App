@@ -90,6 +90,19 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.card-warenkorb{
+    min-height: 570px;
+}
+
+.card-title-warenkorb{
+  color: #ff4b2b;
+    font-weight: 700;
+} 
+
+#card-body {
+    max-height: 500px;  
+}
+
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);

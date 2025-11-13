@@ -2,9 +2,9 @@
 // The empty array in the order list is where the orders go.
 const order = [];
 
-
 let cardOpenMobile = false;
 
+// loads the page and calls other functions
 function init() {
     //Captures the divs in index.html
     let col = document.getElementById("col");
@@ -12,7 +12,7 @@ function init() {
 
     renderMenu();
     renderOrderKorb();
-
+// When switching from mobile screen to desktop, the display of divs is ensured.
     window.addEventListener("resize", () => {
         if (window.innerWidth >= 992) {
             cardOpenMobile = false;
@@ -31,7 +31,7 @@ function renderMenu() {
         col.innerHTML += `
                     <div class="card mb-3">
                         <div class="card-header d-flex justify-content-between">
-                            <h5 class="">${element.name}</h5>
+                            <h5 class="card-header-title">${element.name}</h5>
                             <button onclick="addOrder(${i})" ><i class="bi bi-plus-lg"></i></button>
                         </div>
                         <div class="card-body">
@@ -48,25 +48,25 @@ function renderMenu() {
     renderOrderKorb();
 }
 
-
 // Cart HTML settings according to the order list
 function renderOrderKorb() {
     orderKorb.innerHTML = "";
     const Mobile = window.innerWidth < 992;
-
-    // Buton mobilde
+    console.log(order);
+    
     if (Mobile) {
+        let orderNummer = order.length;
         orderKorb.innerHTML += `
-            <div class="d-block d-lg-none">
-                <button onclick="mobilOrder()" class="btn btn-primary w-100 p-2">Warenkorb</button>
+            <div id="orderNummerButon"  class="d-block d-lg-none">
+                <button onclick="mobilOrder()" class="btn btn-primary w-100 p-2">Warenkorb ${orderNummer > 0 ? `(${orderNummer})` : ""}</button>
             </div>
         `;
     }
 
     // Card (mobilde state’e göre göster/gizle)
     orderKorb.innerHTML += `
-        <div class="card" style="display: ${Mobile && !cardOpenMobile ? 'none' : 'block'};">
-            <h2 class="card-title text-center">Warenkorb</h2>
+        <div class="card card-warenkorb" style="display: ${Mobile && !cardOpenMobile ? 'none' : 'block'};">
+            <h2 class="card-title card-title-warenkorb text-center">Warenkorb</h2>
             <div id="card-body" class="card-body"></div>
         </div>
     `;
@@ -113,7 +113,7 @@ function renderAddOrder() {
                             <div class="d-flex justify-content-between">
                                 <div class="Rechner">
                                     <button onclick="decreaseOrder(${i})"><i class="bi bi-dash-lg"></i></button>
-                                       <span id="amount-${i}">${item.amount}</span>
+                                       <span id="amount-${i}">${item.amount}x</span>
                                     <button onclick="increaseOrder(${i})"><i class="bi bi-plus-lg"></i></button>
                                 </div>
                                 <div class="Rechner">
@@ -125,9 +125,10 @@ function renderAddOrder() {
     }
     renderSummary();
     if (order.length == 0) {
-        let menuCard = document.createElement("div")
-        menuCard.classList.add("card-body")
-        menuCard.innerText = "Es gibt keine Auswahl"
+        let menuCard = document.createElement("div");
+        menuCard.classList.add("card-body");
+         menuCard.classList.add("card-warenkorb-text");
+        menuCard.innerHTML = "<p>🧺 Es gibt keine Auswahl</p><br><p>🍽️ Wenn du Lust auf etwas Leckeres hast, schau einfach in unser Menü und wähle dein Lieblingsgericht aus! Es wird dann hier in deinem Warenkorb angezeigt. Guten Appetit und viel Spaß beim Stöbern! 😋</p>"
         cardBody.append(menuCard)
     } else {
         placeOrder();
@@ -149,7 +150,7 @@ function renderSummary() {
     }
     if (order.length > 0) {
         cardBody.innerHTML += `
-                    <div class="Rechner-info mt-5">
+                    <div class="Rechner-info mt-4">
                         <div>Zwischensumme</div>
                         <div>${subTotal.toFixed(2)}€</div>
                     </div>
@@ -171,7 +172,7 @@ function renderSummary() {
 function placeOrder() {
     let cardBody = document.getElementById("card-body");
     cardBody.innerHTML += `
-                    <div style="display:flex; justify-content: center;">
+                    <div class="place-order">
                     <button onclick="doOrder()" type="button" class="btn btn-primary" id="liveToastBtn">Bestätigung</button>
                     </div>   
    `
@@ -216,4 +217,4 @@ function deleteMenu(i) {
     }
 }
 
-// When switching from mobile screen to desktop, the display of divs is ensured.
+
