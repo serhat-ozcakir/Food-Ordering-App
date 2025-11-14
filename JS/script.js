@@ -1,6 +1,7 @@
 // The empty array in the order list is where the orders go.
 const order = [];
 
+// Booelean variable
 let cardOpenMobile = false;
 
 // loads the page and calls other functions
@@ -72,11 +73,10 @@ function renderCard(){
      const Mobile = window.innerWidth < 992;
       orderKorb.innerHTML += `
         <div class="card card-warenkorb" style="display: ${Mobile && !cardOpenMobile ? 'none' : 'block'};">
-            <h2 class="card-title card-title-warenkorb text-center">Warenkorb</h2>
+            <h2 class=" card-title-warenkorb text-center">Warenkorb</h2>
             <div id="card-body" class="card-body"></div>
         </div>
     `;
-
 }
 
 // When the order list changes, this updates the order again.
@@ -122,7 +122,7 @@ function renderEmptyCard(cardBody){
         let menuCard = document.createElement("div");
         menuCard.classList.add("card-body");
          menuCard.classList.add("card-warenkorb-text");
-        menuCard.innerHTML = "<p>🧺 Es gibt keine Auswahl</p><br><p>🍽️ Wenn du Lust auf etwas Leckeres hast, schau einfach in unser Menü und wähle dein Lieblingsgericht aus! Es wird dann hier in deinem Warenkorb angezeigt. Guten Appetit und viel Spaß beim Stöbern! 😋</p>"
+        menuCard.innerHTML = "<p class=''>🧺 Es gibt keine Auswahl</p><br><p class='card-text-warenkorb'> Wenn du Lust auf etwas Leckeres hast, schau einfach in unser Menü und wähle dein Lieblingsgericht aus! Es wird dann hier in deinem Warenkorb angezeigt. Guten Appetit und viel Spaß beim Stöbern! 😋</p>"
         cardBody.append(menuCard)
 }
 
@@ -189,6 +189,7 @@ function placeOrder() {
                     </div>   
    `
 }
+
 // The basket is cleared when the order is confirmed.
 function doOrder() {
     order.length = 0;
@@ -215,7 +216,7 @@ function decreaseOrder(i) {
     }
     renderAddOrder();
     if (order.length > 0) {
-         renderOrderKorb();
+        renderOrderKorb();
         renderAddOrder();
     }
 }
