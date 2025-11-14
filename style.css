@@ -1,3 +1,29 @@
+/* montserrat-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./Fonts/montserrat-v31-latin-regular.woff2') format('woff2'); 
+}
+/* montserrat-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./Fonts/montserrat-v31-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* lato-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./Fonts/lato-v25-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 html,
 body {
     height: 100%;
@@ -69,18 +95,24 @@ body {
 .content h1 {
   color: #ff4b2b; 
   font-weight: 700;
+  font-family: 'Montserrat';
+  font-weight: 700;
 }
 
 .content p strong {
   color: #ff416c; 
   font-size: 21px;
+    font-family: 'Montserrat';
+  font-weight: 700;
 }
 
 .content p {
   color: #333; 
   line-height: 1.6;
   text-align: justify;
-  font-size: 21px; 
+  font-size: 19px; 
+  font-family: 'Montserrat';
+  font-weight: 400;
 }
 
 .card {
@@ -97,10 +129,17 @@ body {
 .card-title-warenkorb{
   color: #ff4b2b;
     font-weight: 700;
+      font-family: 'Montserrat';
+  font-weight: 700;
+  margin-top: 15px;
 } 
 
 #card-body {
     max-height: 500px;  
+}
+#card-body p{
+    font-family: 'Lato' !important;
+  font-weight: 400;
 }
 
 .card:hover {
@@ -113,20 +152,28 @@ body {
   color: white;
   border-bottom: none;
 }
+.card-header-title{
+      font-family: 'Montserrat';
+  font-weight: 400;
+}
 
 .card-text{
     color: #ff6f3c;
     font-size: 20px;
+     font-family: 'Montserrat';
     font-weight: 700;
 }
 
 .card-title{
   margin-top: 15px;
+  font-family: 'Montserrat';
+  font-weight: 400;
 }
 
 .card-warenkorb-text{
   text-align: center;
   font-size: 20px;
+
 }
 
 button {
@@ -154,6 +201,8 @@ button:hover {
 
 .menu-title{
   padding-top: 10px;
+       font-family: 'Montserrat';
+    font-weight: 700;
 }
 
 .bi-basket-fill{
