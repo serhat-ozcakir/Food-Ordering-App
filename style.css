@@ -240,7 +240,10 @@ button:hover {
   align-self: flex-start;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
+  
 }
+
+
 
 .place-order {
   display: flex;
@@ -287,7 +290,6 @@ section.container {
   flex: 1;
 }
 
-
 .card-toggle {
   display: block !important;
 }
@@ -311,10 +313,20 @@ section.container {
   .content {
     margin-top: 60px;
   }
+   #col {
+    overflow-y: auto; 
+    max-height: 100vh;
+  }
 
   section.container {
     display: flex;
     justify-content: center;
+  }
+    .orderButton-sticky {
+    position: sticky;
+    bottom: 0;
+    z-index: 999;
+    padding-top: 10px;
   }
 }
 
