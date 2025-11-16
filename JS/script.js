@@ -10,7 +10,7 @@ function init() {
     let orderKorb = document.getElementById("orderKorb");
     renderMenu();
     renderOrderKorb();
-// When switching from mobile screen to desktop, the display of divs is ensured.
+
     window.addEventListener("resize", () => {
         if (window.innerWidth >= 992) {
             cardOpenMobile = false;
@@ -30,22 +30,8 @@ function renderMenu() {
 function renderMenüDiv(){
     for (let i = 0; i < menu.length; i++) {
         const element = menu[i];
-        col.innerHTML += `
-                    <div class="card mb-3">
-                        <div class="card-header d-flex justify-content-between">
-                            <h5 class="card-header-title">${element.name}</h5>
-                            <button onclick="addOrder(${i})" ><i class="bi bi-plus-lg"></i></button>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">${element.description}</h5>
-                            <div class="" style="height:200px;">
-                                <img src="${element.url}"
-                                    class="h-100 w-100 object-fit-cover rounded img-fluid" alt="...">
-                            </div>
-                            <p class="card-text mt-2">${element.price}€</p>
-                        </div>
-                    </div>
-        ` }
+        col.innerHTML += TemplateRenderMenüDiv(element,i);
+         }
 }
 
 // Cart HTML settings according to the order list
@@ -60,23 +46,15 @@ function renderOrderKorb() {
 function renderMobileButton(){
  if(window.innerWidth < 992) {
          let orderNummer = order.length;
-        orderKorb.innerHTML += `
-            <div id="orderNummerButon"  class="d-block d-lg-none">
-                <button onclick="mobilOrder()" class="btn btn-primary w-100 p-2">Warenkorb ${orderNummer > 0 ? `(${orderNummer})` : ""}</button>
-            </div>
-        `;
+        orderKorb.innerHTML += templateRenderMobileButton(orderNummer);
     }
 }
 
 // Adds the cart HTML
 function renderCard(){
      const Mobile = window.innerWidth < 992;
-      orderKorb.innerHTML += `
-        <div class="card card-warenkorb" style="display: ${Mobile && !cardOpenMobile ? 'none' : 'block'};">
-            <h2 class=" card-title-warenkorb text-center">Warenkorb</h2>
-            <div id="card-body" class="card-body"></div>
-        </div>
-    `;
+      orderKorb.innerHTML += templateRenderCard(Mobile,cardOpenMobile);
+     ;
 }
 
 // When the order list changes, this updates the order again.
@@ -111,7 +89,7 @@ function mobilOrder() {
 function addOrder(i) {
     let menuList = menu[i];
     if (!order.some(item => item.name === menuList.name)) {
-        order.push({ ...menuList, amount: 5 });
+        order.push({ ...menuList, amount: 1 });
     }
     renderOrderKorb();
     renderAddOrder();
@@ -122,7 +100,7 @@ function renderEmptyCard(cardBody){
         let menuCard = document.createElement("div");
         menuCard.classList.add("card-body");
          menuCard.classList.add("card-warenkorb-text");
-        menuCard.innerHTML = "<p class=''>🧺 Es gibt keine Auswahl</p><br><p class='card-text-warenkorb'> Wenn du Lust auf etwas Leckeres hast, schau einfach in unser Menü und wähle dein Lieblingsgericht aus! Es wird dann hier in deinem Warenkorb angezeigt. Guten Appetit und viel Spaß beim Stöbern! 😋</p>"
+        menuCard.innerHTML = templateRenderEmptyCard()
         cardBody.append(menuCard)
 }
 
@@ -130,20 +108,8 @@ function renderEmptyCard(cardBody){
 function renderOrderItems(cardBody){
         for (let i = 0; i < order.length; i++) {
         const item = order[i];
-        cardBody.innerHTML += `
-                            <p>${item.name}</p>
-                            <div class="d-flex justify-content-between">
-                                <div class="Rechner">
-                                    <button onclick="decreaseOrder(${i})"><i class="bi bi-dash-lg"></i></button>
-                                       <span id="amount-${i}">${item.amount}x</span>
-                                    <button onclick="increaseOrder(${i})"><i class="bi bi-plus-lg"></i></button>
-                                </div>
-                                <div class="Rechner">
-                                   <span id="price-${i}">${(item.price * item.amount).toFixed(2)}€</span>
-                                    <button onclick="deleteMenu(${i})"><i class="bi bi-trash3"></i></button>
-                                </div>
-                            </div>     
-                            ` }
+        cardBody.innerHTML += templateRenderOrderItems(item,i)
+        }
     renderSummary(cardBody);
 }
 
@@ -164,30 +130,15 @@ function renderSummary() {
 // Shows the price information.
 function renderSummaryInfo(cardBody, subTotal, delivery, total){
       if (order.length > 0) {
-        cardBody.innerHTML += `
-                    <div class="Rechner-info mt-4">
-                        <div>Zwischensumme</div>
-                        <div>${subTotal.toFixed(2)}€</div>
-                    </div>
-                    <div class="Rechner-info">
-                        <div>Lieferkosten</div>
-                        <div>${delivery}€</div>
-                    </div>
-                    <div class="Rechner-info">
-                        <div><strong>Gesamt</strong></div>
-                        <div> <strong>${total.toFixed(2)}€</strong></div>
-                    </div>        
-        ` }
+        cardBody.innerHTML += templateRenderSummaryInfo(cardBody, subTotal, delivery, total)
+        }
 }
 
 //  Adds the order confirmation button
 function placeOrder() {
     let cardBody = document.getElementById("card-body");
-    cardBody.innerHTML += `
-                    <div class="place-order">
-                    <button onclick="doOrder()" type="button" class="btn btn-primary" id="liveToastBtn">Bestätigung</button>
-                    </div>   
-   `
+    cardBody.innerHTML += templatePlaceOrder()
+   
 }
 
 // The basket is cleared when the order is confirmed.
