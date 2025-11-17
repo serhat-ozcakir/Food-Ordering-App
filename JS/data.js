@@ -27,7 +27,7 @@ const menu = [
     },
     {
         "name": "Döner",
-        "price": 9,
+        "price": 9.00,
         "description": "Saftiges Fleisch im Fladenbrot mit Soße",
         "url": "./img/döner.jpg",
     }

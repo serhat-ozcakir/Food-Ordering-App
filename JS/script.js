@@ -88,8 +88,12 @@ function mobilOrder() {
 // Food was added to the order list
 function addOrder(i) {
     let menuList = menu[i];
-    if (!order.some(item => item.name === menuList.name)) {
-        order.push({ ...menuList, amount: 1 });
+    let existItem = order.some(item=>item.name === menuList.name);
+    if(!existItem){
+         order.push({ ...menuList, amount: 1 });
+    } else{
+        let index = order.findIndex(item => item.name === menuList.name);
+        order[index].amount++;
     }
     renderOrderKorb();
     renderAddOrder();
