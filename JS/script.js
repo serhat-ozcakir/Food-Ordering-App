@@ -45,7 +45,12 @@ function renderOrderKorb() {
 // Creates a mobile button
 function renderMobileButton(){
  if(window.innerWidth < 992) {
-         let orderNummer = order.length;
+     let newOrderNummer = order.reduce((total,item)=> total + item.amount, 0)
+         let orderNummer = newOrderNummer;
+         for (let i = 0; i < order.length; i++) {
+            const element = order[i];
+            console.log(element);
+         }
         orderKorb.innerHTML += templateRenderMobileButton(orderNummer);
     }
 }
@@ -112,6 +117,7 @@ function renderEmptyCard(cardBody){
 function renderOrderItems(cardBody){
         for (let i = 0; i < order.length; i++) {
         const item = order[i];
+       // console.log(newOrderNummer);
         cardBody.innerHTML += templateRenderOrderItems(item,i)
         }
     renderSummary(cardBody);
