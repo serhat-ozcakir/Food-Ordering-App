@@ -128,11 +128,13 @@ body {
   background-color: #fff8f0;
   border: 1px solid #ff6f3c;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card-warenkorb {
   min-height: 570px;
+
+  
 }
 
 .card-title-warenkorb {
@@ -153,7 +155,11 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-4px);
+ /* transform: translateY(-4px); */
+ /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);*/
+}
+.card-hover:hover{
+ transform: translateY(-4px); 
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -308,6 +314,9 @@ section.container {
 @media screen and (max-width:992px) {
   #orderKorb .card {
     display: none;/
+  }
+  .card-warenkorb {
+    margin-top: 15px;
   }
 
   .content {
