@@ -68,28 +68,6 @@ Clone the repository
 git clone https://github.com/serhat-ozcakir/Bestell-App.git
 ```
 
-## 📸 Screenshots
-
-### Home Page
-
-<p align="center">
-<img src="docs/home.png" width="900">
-</p>
-
-### Shopping Cart
-
-<p align="center">
-<img src="docs/cart.png" width="900">
-</p>
-
-### Responsive View
-
-<p align="center">
-<img src="docs/mobile.png" width="350">
-</p>
-
----
-
 ## 🎯 Learning Objectives
 
 This project was created to strengthen knowledge in:
